@@ -21,7 +21,8 @@
                             <img src="{{ asset('imgs/breakfast.svg') }}" width="240px" height="210px"
                                 class="my-2 img-top-card">
                             <div class="card-body">
-                                <a href="" class="btn btn-block btn btn-block btn-primary">
+                                <a href="{{ route('admin.productos.index') }}"
+                                    class="btn btn-block btn btn-block btn-primary">
                                     Productos
                                 </a>
                             </div>
@@ -32,7 +33,7 @@
                         <div class="card">
                             <img src="{{ asset('imgs/credit_card.svg') }}" width="230px" class="my-2 img-top-card">
                             <div class="card-body">
-                                <a href="" class="btn btn-block btn-primary">
+                                <a href="{{ route('admin.ventas.index') }}" class="btn btn-block btn-primary">
                                     Comprar
                                 </a>
                             </div>

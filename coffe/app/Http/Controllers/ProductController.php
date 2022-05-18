@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $productos = Product::paginate(10);
+        return view('productos.index')->with('productos', $productos);
     }
 
     /**
@@ -24,7 +26,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('productos.create');
     }
 
     /**
@@ -33,9 +35,19 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $producto = new Product;
+        $producto->name = $request->name;
+        $producto->ref = $request->ref;
+        $producto->price = $request->price;
+        $producto->weight = $request->weight;
+        $producto->category = $request->category;
+        $producto->stock = $request->stock;
+
+        if ($producto->save()) {
+            return redirect()->route('admin.productos.index')->with('message', 'El producto: ' . $producto->name . ' fue agregado con Exito!');
+        }
     }
 
     /**
@@ -44,9 +56,10 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        //
+        $producto = Product::findOrFail($id);
+        return view('productos.show')->with('producto', $producto);
     }
 
     /**
@@ -55,9 +68,10 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-        //
+        $producto = Product::find($id);
+        return view('productos.edit')->with('producto', $producto);
     }
 
     /**
@@ -67,9 +81,18 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        $product->name = $request->name;
+        $product->ref = $request->ref;
+        $product->price = $request->price;
+        $product->weight = $request->weight;
+        $product->category = $request->category;
+        $product->stock = $request->stock;
+
+        if ($product->save()) {
+            return redirect()->route('admin.productos.index')->with('message', 'El producto: ' . $product->name . ' fue modificado con Exito!');
+        }
     }
 
     /**
@@ -78,8 +101,11 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        $producto = Product::findOrFail($id);
+        if ($producto->delete()) {
+            return redirect()->route('admin.productos.index')->with('message', 'El producto: ' . $producto->name . ' fue borrado con Exito!');
+        }
     }
 }
