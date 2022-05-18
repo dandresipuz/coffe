@@ -37,3 +37,4 @@ Instalar laravel
 Luego de seguir estos pasos se debe crear la base de datos en MySQL, clonar el repositorio GIT y ejecutar un composer update para instalar las librerías
 
 CONSULTA SQL PARA CONOCER CUAL ES EL PRODUCTO QUE MAS STOCK TIENE - SELECT name FROM products WHERE stock = (SELECT MAX(STOCK) FROM products);
+CONSULTA SQL PARA CONOCER CUAL ES EL PRODUCTO QUE MAS SE HA VENDIDO - SELECT name, COUNT(NAME) MAX FROM ventas;
